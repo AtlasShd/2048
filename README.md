@@ -1,1 +1,1 @@
-# game2048vanilaJS
+https://atlasshd.github.io/game2048vanilaJS/
