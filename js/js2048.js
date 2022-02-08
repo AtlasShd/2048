@@ -9,7 +9,8 @@ let logic = [
 	[0, 0, 0, 0],
 ];
 
-let isMove = true;
+let isPossibleToLeft = true,
+	isPossibleToRight = true;
 
 
 function randomNum() {
@@ -29,9 +30,13 @@ function createBox(color, num) {
 function locationBox(elem) {
 	let x;
 	let y;
+	let count = 0;
 	do {
 		x = randomNum();
 		y = randomNum();
+		if (++count === 50) { //this limiter needed at end
+			break;
+		}
 	} while (logic[y][x]);
 	setXY(elem, x, y);
 	logic[y][x] = 2;
@@ -45,7 +50,8 @@ function setXY(elem, x, y) {
 	}
 	elem.style.cssText = `left: ${(x * 25) + '%'}; top: ${(y * 25) + '%'};`;
 	elem.id = `x${y}y${x}`;
-	isMove = true;
+	isPossibleToLeft = true;
+	isPossibleToRight = true;
 }
 
 function createRandomBox() {
@@ -59,7 +65,7 @@ createRandomBox();
 createRandomBox();
 
 function moveLeft() {
-	isMove = false;
+	isPossibleToLeft = false;
 	for (let i = 0; i < 4; i++) {
 		for (let j = 1; j < 4; j++) {
 			if (logic[i][j]) {
@@ -82,17 +88,49 @@ function moveLeft() {
 	}
 }
 
+function moveRight() {
+	isPossibleToRight = false;
+	for (let i = 3; i >= 0; i--) {
+		for (let j = 2; j >= 0; j--) {
+			if (logic[i][j]) {
+				let k = j;
+				while (k != 3) {
+					if (logic[i][k + 1] === logic[i][k]) {
+						logic[i][k + 1] = logic[i][k + 1] + logic[i][k];
+						logic[i][k] = 0;
+						setXY(document.querySelector(`#x${i}y${k}`), k + 1, i);
+					}
+					if (logic[i][k + 1] === 0) {
+						logic[i][k + 1] = logic[i][k];
+						logic[i][k] = 0;
+						setXY(document.querySelector(`#x${i}y${k}`), k + 1, i);
+					}
+					k++;
+				}
+			}
+		}
+	}
+}
+
 document.addEventListener('keydown', (e) => {
 	if (e.key == 'ArrowLeft') {
 		moveLeft();
-
-		if (isMove) {
+		if (isPossibleToLeft) {
 			createRandomBox();
 			createRandomBox();
 		}
-
-		console.log(logic);
+	} else if (e.key == 'ArrowRight') {
+		moveRight();
+		if (isPossibleToRight) {
+			createRandomBox();
+			createRandomBox();
+		}
 	}
+	if (!isPossibleToLeft && !isPossibleToRight) {
+		alert('game over');
+	}
+
+	console.log(logic);
 });
 
 
