@@ -19,14 +19,19 @@ function createBox(color, num) {
 }
 
 function locationBox(elem) {
-	let x = randomNum();
-	let y = randomNum();
-	elem.style.cssText = `left: ${x + '%'}; top: ${x + '%'};`;
+	let x;
+	let y;
+	do {
+		x = randomNum();
+		y = randomNum();
+	} while (logic[x][y]);
+	elem.style.cssText = `left: ${(x * 25) + '%'}; top: ${(y * 25) + '%'};`;
+	logic[x][y] = 2;
 	return elem;
 }
 
 function randomNum() {
-	const random = Math.floor(Math.random() * 4) * 25;
+	const random = Math.floor(Math.random() * 4);
 	return random === 100 ? 75 : random;
 }
 
