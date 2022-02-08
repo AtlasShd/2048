@@ -102,7 +102,7 @@ html {
   scroll-behavior: smooth;
 }
 
-.video,
+.game,
 .footer {
   font-family: Inter;
   font-size: 20px;
@@ -113,7 +113,7 @@ html {
   color: var(--white);
 }
 
-.video,
+.game,
 .footer {
   background: var(--bg-dark);
   -webkit-transition: background 0.5s ease-in-out 0s;
@@ -198,6 +198,98 @@ span {
 #transition-none * {
   -webkit-transition: none !important;
   transition: none !important;
+}
+
+.game__container {
+  padding: 0 20px;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.game__body {
+  position: relative;
+  width: 40%;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1.1;
+  background: white;
+}
+
+.game__header {
+  color: #000;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.game__core {
+  position: absolute;
+  bottom: 0;
+  background: #e6a80e;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  padding: 4px;
+}
+
+.game__game {
+  position: relative;
+  background: rgba(128, 128, 128, 0.5);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[4];
+      grid-template-columns: repeat(4, 1fr);
+}
+
+.game__box-wallpaper {
+  width: 100%;
+  height: 100%;
+  background: rgba(98, 98, 98, 0.5);
+  border: 1px solid rgba(228, 155, 15, 0.5);
+  border-radius: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-self: center;
+  -ms-flex-item-align: center;
+      align-self: center;
+}
+
+.game__box {
+  position: absolute;
+  top: 25%;
+  left: 0;
+  width: 25%;
+  height: 25%;
+  border: 1px solid rgba(228, 155, 15, 0.5);
+  border-radius: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 300%;
+}
+
+.game__box_red2 {
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(237, 27, 36, 0.8);
 }
 
 .footer__container {
