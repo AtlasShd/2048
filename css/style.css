@@ -1,0 +1,255 @@
+@charset "UTF-8";
+/*Обнуление*/
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather:wght@400;700&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:focus,
+:active {
+  outline: none;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+  display: block;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-size: 100%;
+  line-height: 1;
+  font-size: 14px;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+button::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+img {
+  vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/*--------------------*/
+:root {
+  --bg-dark: #000;
+  --gold: #bdae82;
+  --white: #fff;
+  --matte-black: #1c1c1c;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.video,
+.footer {
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 40px;
+  letter-spacing: 0em;
+  color: var(--white);
+}
+
+.video,
+.footer {
+  background: var(--bg-dark);
+  -webkit-transition: background 0.5s ease-in-out 0s;
+  transition: background 0.5s ease-in-out 0s;
+}
+
+.container {
+  max-width: 1440px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 100px 20px 0;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 80px 0 0;
+  }
+}
+
+.title {
+  position: relative;
+  font-family: Merriweather;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 80px;
+  text-align: center;
+  letter-spacing: 0em;
+  color: var(--gold);
+  max-width: 700px;
+  width: 100%;
+  height: 80px;
+  margin: 0 auto 60px;
+}
+
+.title h2 {
+  position: relative;
+  display: inline-block;
+  padding: 0 20px;
+  background: var(--bg-dark);
+  z-index: 1;
+}
+
+.title::before {
+  content: '';
+  position: absolute;
+  top: 39px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--gold);
+  z-index: 0;
+}
+
+@media (max-width: 1024px) {
+  .title {
+    padding-top: 20px;
+    font-size: 32px;
+    line-height: 40px;
+    text-align: center;
+    max-width: 364px;
+    margin: 0 auto 46px;
+  }
+  .title::before {
+    top: 40px;
+  }
+}
+
+button,
+a,
+svg,
+p,
+h1,
+h2,
+span {
+  -webkit-transition: color 0.5s ease-in-out 0s, background 0.5s ease-in-out 0s, fill 0.5s ease-in-out 0s, -webkit-transform 0.5s ease-in-out 0s;
+  transition: color 0.5s ease-in-out 0s, background 0.5s ease-in-out 0s, fill 0.5s ease-in-out 0s, -webkit-transform 0.5s ease-in-out 0s;
+  transition: color 0.5s ease-in-out 0s, background 0.5s ease-in-out 0s, fill 0.5s ease-in-out 0s, transform 0.5s ease-in-out 0s;
+  transition: color 0.5s ease-in-out 0s, background 0.5s ease-in-out 0s, fill 0.5s ease-in-out 0s, transform 0.5s ease-in-out 0s, -webkit-transform 0.5s ease-in-out 0s;
+}
+
+#transition-none * {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+
+.footer__container {
+  padding-top: 0;
+}
+
+.footer__body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 150px;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.footer__year {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 168px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.footer__year a:hover {
+  color: var(--gold);
+}
+
+.footer__company a:hover {
+  color: var(--gold);
+}
+
+@media (max-width: 1024px) {
+  .footer {
+    padding-bottom: 40px;
+  }
+  .footer__year {
+    padding-top: 20px;
+  }
+  .footer__company {
+    padding-bottom: 20px;
+  }
+  .footer__body {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}

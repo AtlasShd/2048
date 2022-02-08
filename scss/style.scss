@@ -1,0 +1,162 @@
+@import '_cleaning';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Merriweather:wght@400;700&display=swap');
+
+:root {
+	--bg-dark: #000;
+	--gold: #bdae82;
+	--white: #fff;
+	--matte-black: #1c1c1c;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+.video,
+.footer {
+	font-family: Inter;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 40px;
+	letter-spacing: 0em;
+	color: var(--white);
+}
+
+.video,
+.footer {
+	background: var(--bg-dark);
+	transition: background 0.5s ease-in-out 0s;
+	;
+}
+
+.container {
+	max-width: 1440px;
+	height: 100%;
+	margin: 0 auto;
+	padding: 100px 20px 0;
+
+	@media (max-width: 1024px) {
+		padding: 80px 0 0;
+	}
+}
+
+.title {
+	position: relative;
+	font-family: Merriweather;
+	font-size: 40px;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 80px;
+	text-align: center;
+	letter-spacing: 0em;
+	color: var(--gold);
+	max-width: 700px;
+	width: 100%;
+	height: 80px;
+	margin: 0 auto 60px;
+
+	& h2 {
+		position: relative;
+		display: inline-block;
+		padding: 0 20px;
+		background: var(--bg-dark);
+		z-index: 1;
+	}
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 39px;
+		left: 0;
+		width: 100%;
+		height: 2px;
+		background: var(--gold);
+		z-index: 0;
+	}
+
+	@media (max-width: 1024px) {
+		padding-top: 20px;
+		font-size: 32px;
+		line-height: 40px;
+		text-align: center;
+		max-width: 364px;
+		margin: 0 auto 46px;
+
+		&::before {
+			top: 40px;
+		}
+	}
+}
+
+button,
+a,
+svg,
+p,
+h1,
+h2,
+span {
+	transition: color 0.5s ease-in-out 0s, background 0.5s ease-in-out 0s, fill 0.5s ease-in-out 0s, transform 0.5s ease-in-out 0s;
+}
+
+#transition-none * {
+	transition: none !important;
+}
+
+//game
+
+
+
+//game
+
+//footer
+
+.footer {
+	&__container {
+		padding-top: 0;
+	}
+
+	&__body {
+		display: flex;
+		height: 150px;
+		width: 100%;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	&__year {
+		display: flex;
+		width: 168px;
+		justify-content: space-between;
+
+		& a:hover {
+			color: var(--gold);
+		}
+	}
+
+	&__company {
+		& a:hover {
+			color: var(--gold);
+		}
+	}
+
+	&__social {}
+
+	@media (max-width: 1024px) {
+		padding-bottom: 40px;
+
+		&__year {
+			padding-top: 20px;
+		}
+
+		&__company {
+			padding-bottom: 20px;
+		}
+
+		&__body {
+			flex-direction: column;
+		}
+	}
+}
+
+//footer
