@@ -176,6 +176,7 @@ span {
 		align-items: center;
 		justify-content: center;
 		font-size: 300%;
+		transition: top 0.2s ease-in-out 0s, left 0.2s ease-in-out 0s;
 
 		&_red2 {
 			color: rgba(255, 255, 255, 0.8);
