@@ -9,6 +9,8 @@ let logic = [
 	[0, 0, 0, 0],
 ];
 
+let isMove = true;
+
 
 function randomNum() {
 	const random = Math.floor(Math.random() * 4);
@@ -37,12 +39,13 @@ function locationBox(elem) {
 }
 
 function setXY(elem, x, y) {
+	if (document.querySelector(`#x${y}y${x}`)) {
+		document.querySelector(`#x${y}y${x}`).remove();
+		elem.textContent = +elem.textContent * 2;
+	}
 	elem.style.cssText = `left: ${(x * 25) + '%'}; top: ${(y * 25) + '%'};`;
 	elem.id = `x${y}y${x}`;
-}
-
-function moveBox(x, y) {
-
+	isMove = true;
 }
 
 function createRandomBox() {
@@ -55,7 +58,8 @@ function createRandomBox() {
 createRandomBox();
 createRandomBox();
 
-function moveLogicLeft() {
+function moveLeft() {
+	isMove = false;
 	for (let i = 0; i < 4; i++) {
 		for (let j = 1; j < 4; j++) {
 			if (logic[i][j]) {
@@ -78,14 +82,15 @@ function moveLogicLeft() {
 	}
 }
 
-function moveBoxLeft() {
-
-}
-
 document.addEventListener('keydown', (e) => {
 	if (e.key == 'ArrowLeft') {
-		moveLogicLeft();
-		moveBoxLeft();
+		moveLeft();
+
+		if (isMove) {
+			createRandomBox();
+			createRandomBox();
+		}
+
 		console.log(logic);
 	}
 });
