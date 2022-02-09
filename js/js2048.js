@@ -10,7 +10,10 @@ let logic = [
 ];
 
 let isPossibleToLeft = true,
-	isPossibleToRight = true;
+	isPossibleToRight = true,
+	isPossibleToUp = true,
+	isPossibleToDown = true,
+	isPossible = true;
 
 
 function randomNum() {
@@ -35,7 +38,7 @@ function locationBox(elem) {
 		x = randomNum();
 		y = randomNum();
 		if (++count === 50) { //this limiter needed at the end
-			break;
+			return;
 		}
 	} while (logic[y][x]);
 	setXY(elem, x, y);
@@ -52,13 +55,16 @@ function setXY(elem, x, y) {
 	elem.id = `x${y}y${x}`;
 	isPossibleToLeft = true;
 	isPossibleToRight = true;
+	isPossibleToUp = true;
+	isPossibleToDown = true;
 }
 
 function createRandomBox() {
 	const elem = locationBox(createBox('red', '2'));
+	if (!elem) {
+		return;
+	}
 	game.append(elem);
-
-	console.log(logic);
 }
 
 createRandomBox();
@@ -75,8 +81,7 @@ function moveLeft() {
 						logic[i][k - 1] = logic[i][k - 1] + logic[i][k];
 						logic[i][k] = 0;
 						setXY(document.querySelector(`#x${i}y${k}`), k - 1, i);
-					}
-					if (logic[i][k - 1] === 0) {
+					} else if (logic[i][k - 1] === 0) {
 						logic[i][k - 1] = logic[i][k];
 						logic[i][k] = 0;
 						setXY(document.querySelector(`#x${i}y${k}`), k - 1, i);
@@ -99,8 +104,7 @@ function moveRight() {
 						logic[i][k + 1] = logic[i][k + 1] + logic[i][k];
 						logic[i][k] = 0;
 						setXY(document.querySelector(`#x${i}y${k}`), k + 1, i);
-					}
-					if (logic[i][k + 1] === 0) {
+					} else if (logic[i][k + 1] === 0) {
 						logic[i][k + 1] = logic[i][k];
 						logic[i][k] = 0;
 						setXY(document.querySelector(`#x${i}y${k}`), k + 1, i);
@@ -112,21 +116,105 @@ function moveRight() {
 	}
 }
 
-document.addEventListener('keydown', (e) => {
-	if (e.key == 'ArrowLeft') {
-		moveLeft();
-		if (isPossibleToLeft) {
-			createRandomBox();
-			createRandomBox();
-		}
-	} else if (e.key == 'ArrowRight') {
-		moveRight();
-		if (isPossibleToRight) {
-			createRandomBox();
-			createRandomBox();
+function moveUp() {
+	isPossibleToUp = false;
+	for (let i = 0; i < 4; i++) {
+		for (let j = 1; j < 4; j++) {
+			if (logic[j][i]) {
+				let k = j;
+				while (k != 0) {
+					if (logic[k - 1][i] === logic[k][i]) {
+						logic[k - 1][i] = logic[k - 1][i] + logic[k][i];
+						logic[k][i] = 0;
+						setXY(document.querySelector(`#x${k}y${i}`), i, k - 1);
+					} else if (logic[k - 1][i] === 0) {
+						logic[k - 1][i] = logic[k][i];
+						logic[k][i] = 0;
+						setXY(document.querySelector(`#x${k}y${i}`), i, k - 1);
+					}
+					k--;
+				}
+			}
 		}
 	}
-	if (!isPossibleToLeft && !isPossibleToRight) {
+}
+
+function moveDown() {
+	isPossibleToDown = false;
+	for (let i = 3; i >= 0; i--) {
+		for (let j = 2; j >= 0; j--) {
+			if (logic[j][i]) {
+				let k = j;
+				while (k != 3) {
+					if (logic[k + 1][i] === logic[k][i]) {
+						logic[k + 1][i] = logic[k + 1][i] + logic[k][i];
+						logic[k][i] = 0;
+						setXY(document.querySelector(`#x${k}y${i}`), i, k + 1);
+					} else if (logic[k + 1][i] === 0) {
+						logic[k + 1][i] = logic[k][i];
+						logic[k][i] = 0;
+						setXY(document.querySelector(`#x${k}y${i}`), i, k + 1);
+					}
+					k++;
+				}
+			}
+		}
+	}
+}
+
+document.addEventListener('keydown', (e) => {
+	if (!isPossible) {
+		return;
+	} else {
+		isPossible = false;
+	}
+
+	if (e.key == 'ArrowLeft') {
+		new Promise((res) => {
+			if (isPossibleToLeft) {
+				moveLeft();
+				res();
+			}
+		}).then(() => {
+			createRandomBox();
+			createRandomBox();
+			isPossible = true;
+		});
+	} else if (e.key == 'ArrowRight') {
+		new Promise((res) => {
+			if (isPossibleToRight) {
+				moveRight();
+				res();
+			}
+		}).then(() => {
+			createRandomBox();
+			createRandomBox();
+			isPossible = true;
+		});
+	} else if (e.key == 'ArrowUp') {
+		new Promise((res) => {
+			if (isPossibleToUp) {
+				moveUp();
+				res();
+			}
+		}).then(() => {
+			createRandomBox();
+			createRandomBox();
+			isPossible = true;
+		});
+	} else if (e.key == 'ArrowDown') {
+		new Promise((res) => {
+			if (isPossibleToDown) {
+				moveDown();
+				res();
+			}
+		}).then(() => {
+			createRandomBox();
+			createRandomBox();
+			isPossible = true;
+		});
+	}
+	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToUp) {
 		alert('game over');
 	}
 
