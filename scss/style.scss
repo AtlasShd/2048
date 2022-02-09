@@ -116,7 +116,7 @@ span {
 
 	&__body {
 		position: relative;
-		width: 40%;
+		height: 100%;
 		margin: 0 auto;
 		aspect-ratio: 1 / 1.1;
 		background: white;
@@ -181,6 +181,19 @@ span {
 		&_red2 {
 			color: rgba(255, 255, 255, 0.8);
 			background: rgba(237, 27, 36, 0.8);
+		}
+	}
+
+	@media (max-width: 1024px) {
+		&__body {
+			height: auto;
+			width: 100%;
+			max-width: 90vh;
+			aspect-ratio: 1 / 1.2;
+		}
+
+		&__box {
+			font-size: 175%;
 		}
 	}
 }

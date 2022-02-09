@@ -217,7 +217,7 @@ span {
 
 .game__body {
   position: relative;
-  width: 40%;
+  height: 100%;
   margin: 0 auto;
   aspect-ratio: 1 / 1.1;
   background: white;
@@ -292,6 +292,18 @@ span {
 .game__box_red2 {
   color: rgba(255, 255, 255, 0.8);
   background: rgba(237, 27, 36, 0.8);
+}
+
+@media (max-width: 1024px) {
+  .game__body {
+    height: auto;
+    width: 100%;
+    max-width: 90vh;
+    aspect-ratio: 1 / 1.2;
+  }
+  .game__box {
+    font-size: 175%;
+  }
 }
 
 .footer__container {

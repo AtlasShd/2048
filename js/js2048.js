@@ -34,7 +34,7 @@ function locationBox(elem) {
 	do {
 		x = randomNum();
 		y = randomNum();
-		if (++count === 50) { //this limiter needed at end
+		if (++count === 50) { //this limiter needed at the end
 			break;
 		}
 	} while (logic[y][x]);
