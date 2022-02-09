@@ -1,6 +1,8 @@
 'use strict';
 
-const game = document.querySelector('.game__game');
+const game = document.querySelector('.game__game'),
+	gameCount = document.querySelector('.game__count'),
+	gameOver = document.querySelector('.game__game-over');
 
 let logic = [
 	[0, 0, 0, 0],
@@ -12,9 +14,14 @@ let logic = [
 let isPossibleToLeft = true,
 	isPossibleToRight = true,
 	isPossibleToUp = true,
-	isPossibleToDown = true,
-	isPossible = true;
+	isPossibleToDown = true;
 
+let result = 0;
+
+function changeResult(num) {
+	result += num;
+	gameCount.innerHTML = result;
+}
 
 function randomNum() {
 	const random = Math.floor(Math.random() * 4);
@@ -50,6 +57,7 @@ function setXY(elem, x, y) {
 	if (document.querySelector(`#x${y}y${x}`)) {
 		document.querySelector(`#x${y}y${x}`).remove();
 		elem.textContent = +elem.textContent * 2;
+		changeResult(+elem.textContent);
 	}
 	elem.style.cssText = `left: ${(x * 25) + '%'}; top: ${(y * 25) + '%'};`;
 	elem.id = `x${y}y${x}`;
@@ -64,8 +72,37 @@ function createRandomBox() {
 	if (!elem) {
 		return;
 	}
+	changeResult(2);
 	game.append(elem);
 }
+
+function showGameOver() {
+	gameOver.classList.add('game__game-over_show');
+}
+
+document.querySelector('.game__try-again').addEventListener('click', (e) => {
+	logic = [
+		[0, 0, 0, 0],
+		[0, 0, 0, 0],
+		[0, 0, 0, 0],
+		[0, 0, 0, 0],
+	];
+
+	for (let i = 0; i < 4; i++) {
+		for (let j = 0; j < 4; j++) {
+			document.querySelector(`#x${i}y${j}`).remove();
+		}
+	}
+	gameOver.classList.remove('game__game-over_show');
+
+	result = 0;
+	changeResult(0);
+
+	createRandomBox();
+	createRandomBox();
+
+	e.preventDefault();
+});
 
 createRandomBox();
 createRandomBox();
@@ -171,7 +208,6 @@ function toLeft() {
 	}).then(() => {
 		createRandomBox();
 		createRandomBox();
-		isPossible = true;
 	});
 }
 
@@ -184,7 +220,6 @@ function toRight() {
 	}).then(() => {
 		createRandomBox();
 		createRandomBox();
-		isPossible = true;
 	});
 }
 
@@ -197,7 +232,6 @@ function toUp() {
 	}).then(() => {
 		createRandomBox();
 		createRandomBox();
-		isPossible = true;
 	});
 }
 
@@ -210,16 +244,10 @@ function toDown() {
 	}).then(() => {
 		createRandomBox();
 		createRandomBox();
-		isPossible = true;
 	});
 }
 
 document.addEventListener('keydown', (e) => {
-	if (!isPossible) {
-		return;
-	} else {
-		isPossible = false;
-	}
 
 	if (e.key == 'ArrowLeft') {
 		toLeft();
@@ -231,7 +259,7 @@ document.addEventListener('keydown', (e) => {
 		toDown();
 	}
 	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToUp) {
-		alert('game over');
+		showGameOver();
 	}
 
 	e.preventDefault();
@@ -255,10 +283,6 @@ const swiper = (element) => {
 		distanceY = 0,
 		distance = 0;
 
-	function startTouch(e) {
-
-	}
-
 	surface.addEventListener('mousedown', function (e) {
 		startTime = new Date().getTime();
 		startX = e.pageX;
@@ -274,7 +298,7 @@ const swiper = (element) => {
 		// calculate total distance move of mouse through Pythagorean theorem
 
 		if (fullTime <= ALLOWED_TIME && distance >= TRESHOLD) {
-			if (Math.abs(distanceY) <= RESTRAINT) {
+			if (Math.abs(distanceY) <= RESTRAINT && Math.abs(distanceX) > Math.abs(distanceY)) {
 				distanceX > 0 ? toRight() : toLeft();
 			} else {
 				distanceY > 0 ? toDown() : toUp();
@@ -298,7 +322,7 @@ const swiper = (element) => {
 		// calculate total distance move of touch through Pythagorean theorem
 
 		if (fullTime <= ALLOWED_TIME && distance >= TRESHOLD) {
-			if (Math.abs(distanceY) <= RESTRAINT) {
+			if (Math.abs(distanceY) <= RESTRAINT && Math.abs(distanceX) > Math.abs(distanceY)) {
 				distanceX > 0 ? toRight() : toLeft();
 			} else {
 				distanceY > 0 ? toDown() : toUp();
