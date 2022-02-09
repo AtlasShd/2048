@@ -162,6 +162,58 @@ function moveDown() {
 	}
 }
 
+function toLeft() {
+	new Promise((res) => {
+		if (isPossibleToLeft) {
+			moveLeft();
+			res();
+		}
+	}).then(() => {
+		createRandomBox();
+		createRandomBox();
+		isPossible = true;
+	});
+}
+
+function toRight() {
+	new Promise((res) => {
+		if (isPossibleToRight) {
+			moveRight();
+			res();
+		}
+	}).then(() => {
+		createRandomBox();
+		createRandomBox();
+		isPossible = true;
+	});
+}
+
+function toUp() {
+	new Promise((res) => {
+		if (isPossibleToUp) {
+			moveUp();
+			res();
+		}
+	}).then(() => {
+		createRandomBox();
+		createRandomBox();
+		isPossible = true;
+	});
+}
+
+function toDown() {
+	new Promise((res) => {
+		if (isPossibleToDown) {
+			moveDown();
+			res();
+		}
+	}).then(() => {
+		createRandomBox();
+		createRandomBox();
+		isPossible = true;
+	});
+}
+
 document.addEventListener('keydown', (e) => {
 	if (!isPossible) {
 		return;
@@ -170,83 +222,93 @@ document.addEventListener('keydown', (e) => {
 	}
 
 	if (e.key == 'ArrowLeft') {
-		new Promise((res) => {
-			if (isPossibleToLeft) {
-				moveLeft();
-				res();
-			}
-		}).then(() => {
-			createRandomBox();
-			createRandomBox();
-			isPossible = true;
-		});
+		toLeft();
 	} else if (e.key == 'ArrowRight') {
-		new Promise((res) => {
-			if (isPossibleToRight) {
-				moveRight();
-				res();
-			}
-		}).then(() => {
-			createRandomBox();
-			createRandomBox();
-			isPossible = true;
-		});
+		toRight();
 	} else if (e.key == 'ArrowUp') {
-		new Promise((res) => {
-			if (isPossibleToUp) {
-				moveUp();
-				res();
-			}
-		}).then(() => {
-			createRandomBox();
-			createRandomBox();
-			isPossible = true;
-		});
+		toUp();
 	} else if (e.key == 'ArrowDown') {
-		new Promise((res) => {
-			if (isPossibleToDown) {
-				moveDown();
-				res();
-			}
-		}).then(() => {
-			createRandomBox();
-			createRandomBox();
-			isPossible = true;
-		});
+		toDown();
 	}
 	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToUp) {
 		alert('game over');
 	}
 
-	console.log(logic);
+	e.preventDefault();
 });
 
+//swipe
 
+const swiper = (element) => {
+	const ALLOWED_TIME = 300,
+		TRESHOLD = 50,
+		RESTRAINT = 100;
 
+	let surface = element;
 
+	let startTime = 0,
+		fullTime = 0;
 
+	let startX = 0,
+		startY = 0,
+		distanceX = 0,
+		distanceY = 0,
+		distance = 0;
 
+	function startTouch(e) {
 
+	}
 
+	surface.addEventListener('mousedown', function (e) {
+		startTime = new Date().getTime();
+		startX = e.pageX;
+		startY = e.pageY;
+		e.preventDefault();
+	});
 
+	surface.addEventListener('mouseup', function (e) {
+		fullTime = new Date().getTime() - startTime;
+		distanceX = e.pageX - startX;
+		distanceY = e.pageY - startY;
+		distance = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
+		// calculate total distance move of mouse through Pythagorean theorem
 
+		if (fullTime <= ALLOWED_TIME && distance >= TRESHOLD) {
+			if (Math.abs(distanceY) <= RESTRAINT) {
+				distanceX > 0 ? toRight() : toLeft();
+			} else {
+				distanceY > 0 ? toDown() : toUp();
+			}
+		}
+		e.preventDefault();
+	});
 
+	surface.addEventListener('touchstart', function (e) {
+		startTime = new Date().getTime();
+		startX = e.touches[0].pageX;
+		startY = e.touches[0].pageY;
+		e.preventDefault();
+	});
 
+	surface.addEventListener('touchend', function (e) {
+		fullTime = new Date().getTime() - startTime;
+		distanceX = e.changedTouches[0].pageX - startX;
+		distanceY = e.changedTouches[0].pageY - startY;
+		distance = Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
+		// calculate total distance move of touch through Pythagorean theorem
 
+		if (fullTime <= ALLOWED_TIME && distance >= TRESHOLD) {
+			if (Math.abs(distanceY) <= RESTRAINT) {
+				distanceX > 0 ? toRight() : toLeft();
+			} else {
+				distanceY > 0 ? toDown() : toUp();
+			}
+		}
+		e.preventDefault();
+	});
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+swiper(document.querySelector('.game__game'));
 
 
 // disabling transition before loading page

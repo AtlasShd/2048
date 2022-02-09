@@ -221,6 +221,10 @@ span {
   margin: 0 auto;
   aspect-ratio: 1 / 1.1;
   background: white;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .game__header {
@@ -265,6 +269,7 @@ span {
   justify-self: center;
   -ms-flex-item-align: center;
       align-self: center;
+  cursor: pointer;
 }
 
 .game__box {
@@ -287,6 +292,7 @@ span {
   font-size: 300%;
   -webkit-transition: top 0.1s ease-in-out 0s, left 0.1s ease-in-out 0s;
   transition: top 0.1s ease-in-out 0s, left 0.1s ease-in-out 0s;
+  cursor: pointer;
 }
 
 .game__box_red2 {
