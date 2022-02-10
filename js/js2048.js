@@ -44,7 +44,8 @@ function locationBox(elem) {
 	do {
 		x = randomNum();
 		y = randomNum();
-		if (++count === 50) { //this limiter needed at the end
+		if (++count === 50) {
+			//this limiter needed at the end
 			return;
 		}
 	} while (logic[y][x]);
@@ -54,17 +55,23 @@ function locationBox(elem) {
 }
 
 function setXY(elem, x, y) {
-	if (document.querySelector(`#x${y}y${x}`)) {
-		document.querySelector(`#x${y}y${x}`).remove();
+	const extraBox = document.querySelector(`#x${y}y${x}`);
+	if (extraBox) {
+		extraBox.id = 'deleted';
+		extraBox.classList.add('animate-hidebox');
+		extraBox.addEventListener('animationend', () => {
+			extraBox.remove();
+		});
 		elem.classList.remove('animate-showbox');
 		elem.classList.add('animate-stackbox');
 		elem.addEventListener('animationend', () => {
 			elem.classList.remove('animate-stackbox');
 		});
 		elem.textContent = +elem.textContent * 2;
+		elem.classList.add(`box-color${elem.textContent}`);
 		changeResult(+elem.textContent);
 	}
-	elem.style.cssText = `left: ${(x * 25) + '%'}; top: ${(y * 25) + '%'};`;
+	elem.style.cssText = `left: ${x * 25 + '%'}; top: ${y * 25 + '%'};`;
 	elem.id = `x${y}y${x}`;
 	isPossibleToLeft = true;
 	isPossibleToRight = true;
@@ -116,7 +123,6 @@ function checkToLose() {
 	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToDown) {
 		showGameOver();
 	}
-	console.log(isPossibleToLeft, isPossibleToRight, isPossibleToUp, isPossibleToDown)
 }
 
 function moveLeft() {
@@ -209,58 +215,57 @@ function moveDown() {
 
 function toLeft() {
 	new Promise((res) => {
-		if (isPossibleToLeft) {
-			isPossibleToLeft = false;
-			moveLeft();
-			res();
-		}
+		isPossibleToLeft = false;
+		moveLeft();
+		res();
 	}).then(() => {
-		createRandomBox();
-		createRandomBox();
+		if (isPossibleToLeft) {
+			createRandomBox();
+			createRandomBox();
+		}
 	});
 }
 
 function toRight() {
 	new Promise((res) => {
-		if (isPossibleToRight) {
-			isPossibleToRight = false;
-			moveRight();
-			res();
-		}
+		isPossibleToRight = false;
+		moveRight();
+		res();
 	}).then(() => {
-		createRandomBox();
-		createRandomBox();
+		if (isPossibleToRight) {
+			createRandomBox();
+			createRandomBox();
+		}
 	});
 }
 
 function toUp() {
 	new Promise((res) => {
-		if (isPossibleToUp) {
-			isPossibleToUp = false;
-			moveUp();
-			res();
-		}
+		isPossibleToUp = false;
+		moveUp();
+		res();
 	}).then(() => {
-		createRandomBox();
-		createRandomBox();
+		if (isPossibleToUp) {
+			createRandomBox();
+			createRandomBox();
+		}
 	});
 }
 
 function toDown() {
 	new Promise((res) => {
-		if (isPossibleToDown) {
-			isPossibleToDown = false;
-			moveDown();
-			res();
-		}
+		isPossibleToDown = false;
+		moveDown();
+		res();
 	}).then(() => {
-		createRandomBox();
-		createRandomBox();
+		if (isPossibleToDown) {
+			createRandomBox();
+			createRandomBox();
+		}
 	});
 }
 
 document.addEventListener('keydown', (e) => {
-
 	if (e.key == 'ArrowLeft') {
 		toLeft();
 		e.preventDefault();
@@ -275,7 +280,6 @@ document.addEventListener('keydown', (e) => {
 		e.preventDefault();
 	}
 	checkToLose();
-
 });
 
 //swipe
@@ -350,7 +354,6 @@ const swiper = (element) => {
 };
 
 swiper(document.querySelector('.game__game'));
-
 
 // disabling transition before loading page
 
