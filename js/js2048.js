@@ -107,8 +107,13 @@ document.querySelector('.game__try-again').addEventListener('click', (e) => {
 createRandomBox();
 createRandomBox();
 
+function checkToLose() {
+	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToUp) {
+		showGameOver();
+	}
+}
+
 function moveLeft() {
-	isPossibleToLeft = false;
 	for (let i = 0; i < 4; i++) {
 		for (let j = 1; j < 4; j++) {
 			if (logic[i][j]) {
@@ -131,7 +136,6 @@ function moveLeft() {
 }
 
 function moveRight() {
-	isPossibleToRight = false;
 	for (let i = 3; i >= 0; i--) {
 		for (let j = 2; j >= 0; j--) {
 			if (logic[i][j]) {
@@ -154,7 +158,6 @@ function moveRight() {
 }
 
 function moveUp() {
-	isPossibleToUp = false;
 	for (let i = 0; i < 4; i++) {
 		for (let j = 1; j < 4; j++) {
 			if (logic[j][i]) {
@@ -177,7 +180,6 @@ function moveUp() {
 }
 
 function moveDown() {
-	isPossibleToDown = false;
 	for (let i = 3; i >= 0; i--) {
 		for (let j = 2; j >= 0; j--) {
 			if (logic[j][i]) {
@@ -202,6 +204,7 @@ function moveDown() {
 function toLeft() {
 	new Promise((res) => {
 		if (isPossibleToLeft) {
+			isPossibleToLeft = false;
 			moveLeft();
 			res();
 		}
@@ -214,6 +217,7 @@ function toLeft() {
 function toRight() {
 	new Promise((res) => {
 		if (isPossibleToRight) {
+			isPossibleToRight = false;
 			moveRight();
 			res();
 		}
@@ -226,6 +230,7 @@ function toRight() {
 function toUp() {
 	new Promise((res) => {
 		if (isPossibleToUp) {
+			isPossibleToUp = false;
 			moveUp();
 			res();
 		}
@@ -238,6 +243,7 @@ function toUp() {
 function toDown() {
 	new Promise((res) => {
 		if (isPossibleToDown) {
+			isPossibleToDown = false;
 			moveDown();
 			res();
 		}
@@ -258,9 +264,7 @@ document.addEventListener('keydown', (e) => {
 	} else if (e.key == 'ArrowDown') {
 		toDown();
 	}
-	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToUp) {
-		showGameOver();
-	}
+	checkToLose();
 
 	e.preventDefault();
 });
@@ -304,6 +308,8 @@ const swiper = (element) => {
 				distanceY > 0 ? toDown() : toUp();
 			}
 		}
+
+		checkToLose();
 		e.preventDefault();
 	});
 
@@ -328,6 +334,8 @@ const swiper = (element) => {
 				distanceY > 0 ? toDown() : toUp();
 			}
 		}
+
+		checkToLose();
 		e.preventDefault();
 	});
 };
