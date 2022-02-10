@@ -31,7 +31,7 @@ function randomNum() {
 function createBox(color, num) {
 	const elem = document.createElement('div');
 	elem.classList.add(`game__box`);
-	elem.classList.add(`game__box_${color}${num}`);
+	elem.classList.add('animate-showbox');
 	elem.textContent = num;
 
 	return elem;
@@ -56,6 +56,11 @@ function locationBox(elem) {
 function setXY(elem, x, y) {
 	if (document.querySelector(`#x${y}y${x}`)) {
 		document.querySelector(`#x${y}y${x}`).remove();
+		elem.classList.remove('animate-showbox');
+		elem.classList.add('animate-stackbox');
+		elem.addEventListener('animationend', () => {
+			elem.classList.remove('animate-stackbox');
+		});
 		elem.textContent = +elem.textContent * 2;
 		changeResult(+elem.textContent);
 	}
@@ -108,9 +113,10 @@ createRandomBox();
 createRandomBox();
 
 function checkToLose() {
-	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToUp) {
+	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToDown) {
 		showGameOver();
 	}
+	console.log(isPossibleToLeft, isPossibleToRight, isPossibleToUp, isPossibleToDown)
 }
 
 function moveLeft() {
@@ -257,16 +263,19 @@ document.addEventListener('keydown', (e) => {
 
 	if (e.key == 'ArrowLeft') {
 		toLeft();
+		e.preventDefault();
 	} else if (e.key == 'ArrowRight') {
 		toRight();
+		e.preventDefault();
 	} else if (e.key == 'ArrowUp') {
 		toUp();
+		e.preventDefault();
 	} else if (e.key == 'ArrowDown') {
 		toDown();
+		e.preventDefault();
 	}
 	checkToLose();
 
-	e.preventDefault();
 });
 
 //swipe
