@@ -167,7 +167,8 @@ span {
 		cursor: pointer;
 	}
 
-	&__game-over {
+	&__game-over,
+	&__game-win {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -178,25 +179,34 @@ span {
 		align-items: center;
 		justify-content: center;
 		display: none;
-		padding-bottom: 18%;
 		z-index: 6;
-
-		&_show {
-			display: flex;
-		}
+		padding-bottom: 16%;
 	}
 
-	&__game-over-title {
+	&_show {
+		display: flex;
+	}
+
+	&__game-over-title,
+	&__game-win-title {
 		font-size: 36px;
-		padding-bottom: 12%;
 		color: rgb(23, 23, 39);
 		font-weight: bold;
+		padding-bottom: 3%;
 	}
 
-	&__try-again {
+	&__game-win-subtitle,
+	&__game-over-subtitle {
+		font-size: 24px;
+	}
+
+	&__try-again,
+	&__new-game,
+	&__resume-game {
 		font-size: 24px;
 		padding: 10px;
 		border-radius: 5px;
+		margin-top: 2%;
 	}
 
 	&__box {

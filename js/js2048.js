@@ -2,7 +2,8 @@
 
 const game = document.querySelector('.game__game'),
 	gameCount = document.querySelector('.game__count'),
-	gameOver = document.querySelector('.game__game-over');
+	gameOver = document.querySelector('.game__game-over'),
+	win = document.querySelector('.game__game-win');
 
 let logic = [
 	[0, 0, 0, 0],
@@ -14,9 +15,12 @@ let logic = [
 let isPossibleToLeft = true,
 	isPossibleToRight = true,
 	isPossibleToUp = true,
-	isPossibleToDown = true;
+	isPossibleToDown = true,
+	isPossible = true;
 
 let result = 0;
+
+let scoreForWin = 2048;
 
 function changeResult(num) {
 	result += num;
@@ -70,6 +74,9 @@ function setXY(elem, x, y) {
 		elem.textContent = +elem.textContent * 2;
 		elem.classList.add(`box-color${elem.textContent}`);
 		changeResult(+elem.textContent);
+		if (+elem.textContent === scoreForWin) {
+			showTheEnd(win);
+		}
 	}
 	elem.style.cssText = `left: ${x * 25 + '%'}; top: ${y * 25 + '%'};`;
 	elem.id = `x${y}y${x}`;
@@ -88,11 +95,19 @@ function createRandomBox() {
 	game.append(elem);
 }
 
-function showGameOver() {
-	gameOver.classList.add('game__game-over_show');
+function showTheEnd(element) {
+	element.classList.add('game_show');
+	isPossible = false;
+	if (scoreForWin === 8192) {
+		document.querySelector('.game__resume-game').remove();
+	}
 }
 
-document.querySelector('.game__try-again').addEventListener('click', (e) => {
+document.querySelector('.game__try-again').addEventListener('click', startNewGame);
+document.querySelector('.game__new-game').addEventListener('click', startNewGame);
+document.querySelector('.game__resume-game').addEventListener('click', resumeGame);
+
+function startNewGame(e) {
 	logic = [
 		[0, 0, 0, 0],
 		[0, 0, 0, 0],
@@ -102,10 +117,14 @@ document.querySelector('.game__try-again').addEventListener('click', (e) => {
 
 	for (let i = 0; i < 4; i++) {
 		for (let j = 0; j < 4; j++) {
-			document.querySelector(`#x${i}y${j}`).remove();
+			const elem = document.querySelector(`#x${i}y${j}`);
+
+			if (elem) {
+				elem.remove();
+			}
 		}
 	}
-	gameOver.classList.remove('game__game-over_show');
+	e.target.parentElement.classList.remove('game_show');
 
 	result = 0;
 	changeResult(0);
@@ -113,15 +132,23 @@ document.querySelector('.game__try-again').addEventListener('click', (e) => {
 	createRandomBox();
 	createRandomBox();
 
+	isPossible = true;
+
 	e.preventDefault();
-});
+}
+function resumeGame(e) {
+	e.target.parentElement.classList.remove('game_show');
+	scoreForWin = 8192;
+	isPossible = true;
+}
 
 createRandomBox();
 createRandomBox();
 
 function checkToLose() {
 	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToDown) {
-		showGameOver();
+		isPossible = false;
+		showTheEnd(gameOver);
 	}
 }
 
@@ -214,6 +241,9 @@ function moveDown() {
 }
 
 function toLeft() {
+	if (!isPossible) {
+		return;
+	}
 	new Promise((res) => {
 		isPossibleToLeft = false;
 		moveLeft();
@@ -227,6 +257,9 @@ function toLeft() {
 }
 
 function toRight() {
+	if (!isPossible) {
+		return;
+	}
 	new Promise((res) => {
 		isPossibleToRight = false;
 		moveRight();
@@ -240,6 +273,9 @@ function toRight() {
 }
 
 function toUp() {
+	if (!isPossible) {
+		return;
+	}
 	new Promise((res) => {
 		isPossibleToUp = false;
 		moveUp();
@@ -253,6 +289,9 @@ function toUp() {
 }
 
 function toDown() {
+	if (!isPossible) {
+		return;
+	}
 	new Promise((res) => {
 		isPossibleToDown = false;
 		moveDown();

@@ -273,7 +273,7 @@ span {
   cursor: pointer;
 }
 
-.game__game-over {
+.game__game-over, .game__game-win {
   position: absolute;
   top: 0;
   left: 0;
@@ -291,27 +291,32 @@ span {
       -ms-flex-pack: center;
           justify-content: center;
   display: none;
-  padding-bottom: 18%;
   z-index: 6;
+  padding-bottom: 16%;
 }
 
-.game__game-over_show {
+.game_show {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.game__game-over-title {
+.game__game-over-title, .game__game-win-title {
   font-size: 36px;
-  padding-bottom: 12%;
   color: #171727;
   font-weight: bold;
+  padding-bottom: 3%;
 }
 
-.game__try-again {
+.game__game-win-subtitle, .game__game-over-subtitle {
+  font-size: 24px;
+}
+
+.game__try-again, .game__new-game, .game__resume-game {
   font-size: 24px;
   padding: 10px;
   border-radius: 5px;
+  margin-top: 2%;
 }
 
 .game__box {
