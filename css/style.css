@@ -217,6 +217,7 @@ span {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  z-index: 2;
 }
 
 .game__body {
@@ -244,6 +245,10 @@ span {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-user-select: text;
+     -moz-user-select: text;
+      -ms-user-select: text;
+          user-select: text;
 }
 
 .game__title {
@@ -526,12 +531,15 @@ span {
 }
 
 .score-table {
+  position: absolute;
+  z-index: 7;
   width: 100%;
+  background: none;
+  height: 10px;
 }
 
 .score-table__container {
-  width: 70vh;
-  margin: 0 auto;
+  max-width: 100%;
   padding: 0;
 }
 
@@ -545,6 +553,17 @@ span {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-transform: translateY(-120%);
+          transform: translateY(-120%);
+  -webkit-transition: -webkit-transform 0.5s ease-in-out 0s;
+  transition: -webkit-transform 0.5s ease-in-out 0s;
+  transition: transform 0.5s ease-in-out 0s;
+  transition: transform 0.5s ease-in-out 0s, -webkit-transform 0.5s ease-in-out 0s;
+}
+
+.score-table__body_show {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
 }
 
 .score-table__title {
@@ -556,6 +575,7 @@ span {
       -ms-flex-pack: center;
           justify-content: center;
   background: #05001fcb;
+  cursor: pointer;
 }
 
 @media (max-width: 1024px) {

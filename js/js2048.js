@@ -3,7 +3,8 @@
 const game = document.querySelector('.game__game'),
 	gameCount = document.querySelector('.game__count'),
 	gameOver = document.querySelector('.game__game-over'),
-	win = document.querySelector('.game__game-win');
+	win = document.querySelector('.game__game-win'),
+	scoreTable = document.querySelector('.score-table__body');
 
 let logic = [
 	[0, 0, 0, 0],
@@ -146,9 +147,14 @@ createRandomBox();
 createRandomBox();
 
 function checkToLose() {
-	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToDown) {
+	if (!isPossibleToLeft && !isPossibleToRight && !isPossibleToUp && !isPossibleToDown && isPossible) {
 		isPossible = false;
+
+		pushLocalStorage();
+
 		showTheEnd(gameOver);
+
+		createScorePlace();
 	}
 }
 
@@ -393,6 +399,42 @@ const swiper = (element) => {
 };
 
 swiper(document.querySelector('.game__game'));
+
+function pushLocalStorage() {
+	const local = window.localStorage.getItem('score-table');
+	if (local) {
+		window.localStorage.setItem('score-table', `${local}, ${result}`);
+	} else {
+		window.localStorage.setItem('score-table', result);
+	}
+}
+
+function createScorePlace() {
+	scoreTable.innerHTML = '';
+	if (window.localStorage.getItem('score-table')) {
+		const places = window.localStorage.getItem('score-table').split(',');
+		places.sort();
+
+		places.forEach((item, i) => {
+			const span = document.createElement('span');
+
+			span.textContent = `${i + 1} place: ${item} points`;
+			span.classList.add('score-table__value');
+
+			scoreTable.append(span);
+		});
+	}
+}
+
+// localstorage
+
+window.addEventListener('load', createScorePlace);
+
+//show score place
+
+document.querySelector('.score-table__title').addEventListener('click', () => {
+	scoreTable.classList.toggle('score-table__body_show');
+});
 
 // disabling transition before loading page
 
