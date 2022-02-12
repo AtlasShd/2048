@@ -410,19 +410,20 @@ function pushLocalStorage() {
 }
 
 function createScorePlace() {
-	scoreTable.innerHTML = '';
 	if (window.localStorage.getItem('score-table')) {
+		scoreTable.innerHTML = '';
 		const places = window.localStorage.getItem('score-table').split(',');
-		places.sort();
+		places.sort((a, b) => b - a);
+		const placesLength = places.length < 10 ? places.length : 10;
 
-		places.forEach((item, i) => {
+		for (let i = 0; i < placesLength; i++) {
 			const span = document.createElement('span');
 
-			span.textContent = `${i + 1} place: ${item} points`;
+			span.textContent = `${i + 1} place: ${places[i]} points`;
 			span.classList.add('score-table__value');
 
 			scoreTable.append(span);
-		});
+		}
 	}
 }
 
