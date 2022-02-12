@@ -119,13 +119,13 @@ function startNewGame(e) {
 	for (let i = 0; i < 4; i++) {
 		for (let j = 0; j < 4; j++) {
 			const elem = document.querySelector(`#x${i}y${j}`);
-
 			if (elem) {
 				elem.remove();
 			}
 		}
 	}
-	e.target.parentElement.classList.remove('game_show');
+	gameOver.classList.remove('game_show');
+	win.classList.remove('game_show');
 
 	result = 0;
 	changeResult(0);
@@ -137,8 +137,9 @@ function startNewGame(e) {
 
 	e.preventDefault();
 }
+
 function resumeGame(e) {
-	e.target.parentElement.classList.remove('game_show');
+	win.classList.remove('game_show');
 	scoreForWin = 8192;
 	isPossible = true;
 }
