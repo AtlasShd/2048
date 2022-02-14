@@ -104,6 +104,7 @@ html {
 
 .game,
 .score-table,
+.instruction,
 .footer {
   font-family: Inter;
   font-size: 20px;
@@ -115,6 +116,7 @@ html {
 }
 
 .game,
+.instruction,
 .score-table {
   background: #140027;
 }
@@ -373,7 +375,7 @@ span {
   .game__body {
     height: auto;
     width: 100%;
-    max-width: 90vh;
+    max-width: 75vh;
   }
   .game__box {
     font-size: 175%;
@@ -588,6 +590,37 @@ span {
     width: 100%;
     max-width: 90vh;
   }
+}
+
+.instruction {
+  padding: 20px 10px 40px;
+}
+
+.instruction__container {
+  padding: 0;
+  max-width: 80vh;
+  background: #1c0036;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.instruction__title {
+  color: white;
+  margin: 0 auto 20px;
+}
+
+.instruction__title::before {
+  display: none;
+}
+
+.instruction__body {
+  letter-spacing: 1px;
+  text-align: justify;
+}
+
+.instruction__body p,
+.instruction__body ul {
+  padding-bottom: 20px;
 }
 
 .footer__container {
